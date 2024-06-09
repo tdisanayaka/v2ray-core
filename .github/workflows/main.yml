@@ -1,0 +1,24 @@
+name: Deploy V2Ray
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy V2Ray
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+        env:
+          V2RAY_CONFIG: ${{ secrets.V2RAY_CONFIG }}
+        run: |
+          npm install -g v2ray
+          v2ray --config $V2RAY_CONFIG
